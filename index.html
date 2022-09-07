@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+        const MILISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
+        const DAYS_IN_YEAR = 365;
+        const MILISECONDS_IN_YEAR = MILISECONDS_IN_DAY * DAYS_IN_YEAR;
+
+        const randomNumber = range => Math.floor(Math.random() * range);
+
+        const pluralise = (string, count) => {
+            const plural = count !== 1 && count !== -1;
+            return `${string}${plural ? 's' : ''}`;
+        };
+        const format = (string, count) => {
+            return `${count} ${pluralise(string, count)}`;
+        };
+
+        const LIGHT_COLORS = ['#d0fdb1', '#90fca4', '#a9ffed', '#b5ffd4'];
+        const DARK_COLORS = ['#cc8bc6', '#7bba7b', '#de9fa7', '#81c8de', '#a791e1'];
+        const DARK_FONT_COLOR = '#565f59';
+        const LIGHT_FONT_COLOR = '#fffef9';
+        const getRandomColors = () => {
+            const isLight = randomNumber(2) === 1;
+            // const isLight = false;
+            const fontColor = isLight ? DARK_FONT_COLOR : LIGHT_FONT_COLOR;
+            const backgroundColor = isLight
+                ? LIGHT_COLORS[randomNumber(LIGHT_COLORS.length)]
+                : DARK_COLORS[randomNumber(DARK_COLORS.length)];
+            console.log(backgroundColor);
+            return { fontColor, backgroundColor };
+        };
+
+        const IMAGE_COUNT = 10;
+        const IMAGES = Array(IMAGE_COUNT)
+            .fill(0)
+            .map((_, index) => '' + index + '.jpg');
+
+        const getRandomImage = () => {
+            return IMAGES[randomNumber(IMAGES.length)];
+        };
+        const randomiseImage = () => {
+            const imageElement = document.querySelector('#image');
+            imageElement.setAttribute('src', 'img/' + getRandomImage());
+        };
+
+        const birthDate = new Date(2022, 4, 17);
+        const today = new Date();
+
+        console.log({ birthDate, today });
+
+        const ageInMonths = {
+            months:
+                (today.getFullYear() - birthDate.getFullYear()) * 12 +
+                today.getMonth() -
+                birthDate.getMonth(),
+            days: today.getDay() - birthDate.getDay(),
+        };
+
+        const ageInYears = ((today.getTime() - birthDate.getTime()) / MILISECONDS_IN_YEAR).toFixed(
+            2
+        );
+
+        const ageInDays = ((today.getTime() - birthDate.getTime()) / MILISECONDS_IN_DAY).toFixed(0);
+
+        window.addEventListener('load', () => {
+            const ageInMonthsElement = document.querySelector('#age-in-months');
+            const ageInYearsElement = document.querySelector('#age-in-years');
+            const ageInDaysElement = document.querySelector('#age-in-days');
+            const imageContainerElement = document.querySelector('#image-container');
+            const imageElement = document.querySelector('#image');
+            const seeFreddieElement = document.querySelector('#see-freddie');
+
+            ageInMonthsElement.innerText =
+                `Freddie is ${format('month', ageInMonths.months)}` +
+                ` and ${format('day', ageInMonths.days)} old`;
+
+            ageInYearsElement.innerText = `which is ${format('year', ageInYears)}`;
+
+            ageInDaysElement.innerText = `or ${format('day', ageInDays)}`;
+
+            randomiseImage();
+
+            seeFreddieElement.addEventListener('click', () => {
+                randomiseImage();
+                imageElement.classList.remove('hidden');
+                imageContainerElement.classList.remove('hidden');
+            });
+
+            imageContainerElement.addEventListener('click', () => {
+                imageElement.classList.add('hidden');
+                imageContainerElement.classList.add('hidden');
+            });
+
+            const colors = getRandomColors();
+            document.documentElement.style.setProperty(
+                '--background-color',
+                colors.backgroundColor
+            );
+            document.documentElement.style.setProperty('--font-color', colors.fontColor);
+        });
+    </script>
+    <style>
+        :root {
+            --background-color: blue;
+            --font-color: white;
+            --cc8bc6: '#cc8bc6';
+            --ad0fdb1: '#d0fdb1';
+            --a90e88f: '#90e88f';
+            --affb9c2: '#ffb9c2';
+            --a81c8de: '#81c8de';
+            --aa791e1: '#a791e1';
+            --a90fca4: '#90fca4';
+            --a82d7c5: '#82d7c5';
+            --ac5e4d2: '#c5e4d2';
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: monospace;
+            box-sizing: border-box;
+        }
+
+        h1,
+        h2 {
+            margin: 10px;
+            scale: 1;
+            text-align: center;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--font-color);
+        }
+
+        #container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+            padding: 50px;
+        }
+
+        #see-freddie {
+            cursor: pointer;
+            border: none;
+            background: none;
+            text-decoration: underline;
+            color: var(--font-color);
+        }
+
+        #image-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #image-container.hidden {
+            height: 0;
+        }
+
+        #image {
+            position: absolute;
+            max-height: 80%;
+            max-width: 80%;
+        }
+
+        #image.hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <h1 id="age-in-months"></h1>
+        <h2 id="age-in-years"></h2>
+        <h2 id="age-in-days"></h2>
+        <button id="see-freddie">See Freddie</button>
+    </div>
+    <div id="image-container" class="hidden">
+        <img id="image" class="hidden" />
+    </div>
+</body>
