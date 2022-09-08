@@ -39,8 +39,16 @@
             .fill(0)
             .map((_, index) => '' + index + '.jpg');
 
+        let imagesToSelectFrom = [];
         const getRandomImage = () => {
-            return IMAGES[randomNumber(IMAGES.length)];
+            if (imagesToSelectFrom.length === 0) {
+                imagesToSelectFrom = [...IMAGES];
+            }
+
+            const index = randomNumber(imagesToSelectFrom.length);
+            const image = imagesToSelectFrom[index];
+            imagesToSelectFrom.splice(index, 1);
+            return image;
         };
         const randomiseImage = () => {
             const imageElement = document.querySelector('#image');
