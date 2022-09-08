@@ -65,7 +65,11 @@
 
         const ageInDays = ((today.getTime() - birthDate.getTime()) / MILISECONDS_IN_DAY).toFixed(0);
 
-        const ageInSeconds = ((today.getTime() - birthDate.getTime()) / 1000).toFixed(0);
+        const updateAgeInSeconds = () => {
+            const ageInSeconds = ((new Date().getTime() - birthDate.getTime()) / 1000).toFixed(0);
+            const ageInSecondsElement = document.querySelector('#age-in-seconds');
+            ageInSecondsElement.innerText = `or ${format('second', ageInSeconds)}`;
+        };
 
         window.addEventListener('load', () => {
             const ageInMonthsElement = document.querySelector('#age-in-months');
@@ -83,7 +87,7 @@
 
             ageInDaysElement.innerText = `which is ${format('day', ageInDays)}`;
 
-            ageInSecondsElement.innerText = `or ${format('second', ageInSeconds)}`;
+            updateAgeInSeconds();
 
             randomiseImage();
 
@@ -104,6 +108,8 @@
                 colors.backgroundColor
             );
             document.documentElement.style.setProperty('--font-color', colors.fontColor);
+
+            setInterval(updateAgeInSeconds, 1000);
         });
     </script>
     <style>
