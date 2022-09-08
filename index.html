@@ -50,37 +50,35 @@
         const birthDate = new Date(2022, 4, 17);
         const today = new Date();
 
-        console.log({ birthDate, today });
+        const ageInYears = today.getFullYear() - birthDate.getFullYear();
 
+        const daysIntoTheMonth = today.getDate() - birthDate.getDate();
+        const monthsIntoTheYear = today.getMonth() - birthDate.getMonth();
+        const daysInAMonth = (year, month) => new Date(year, month, 0).getDate();
         const ageInMonths = {
-            months:
-                (today.getFullYear() - birthDate.getFullYear()) * 12 +
-                today.getMonth() -
-                birthDate.getMonth(),
-            days: today.getDay() - birthDate.getDay(),
+            months: monthsIntoTheYear + (daysIntoTheMonth < 0 ? -1 : 0),
+            days:
+                daysIntoTheMonth < 0
+                    ? daysInAMonth(today.getFullYear(), today.getMonth()) + daysIntoTheMonth
+                    : daysIntoTheMonth,
         };
-
-        const ageInYears = ((today.getTime() - birthDate.getTime()) / MILISECONDS_IN_YEAR).toFixed(
-            2
-        );
 
         const ageInDays = ((today.getTime() - birthDate.getTime()) / MILISECONDS_IN_DAY).toFixed(0);
 
         window.addEventListener('load', () => {
             const ageInMonthsElement = document.querySelector('#age-in-months');
-            const ageInYearsElement = document.querySelector('#age-in-years');
             const ageInDaysElement = document.querySelector('#age-in-days');
             const imageContainerElement = document.querySelector('#image-container');
             const imageElement = document.querySelector('#image');
             const seeFreddieElement = document.querySelector('#see-freddie');
 
-            ageInMonthsElement.innerText =
-                `Freddie is ${format('month', ageInMonths.months)}` +
-                ` and ${format('day', ageInMonths.days)} old`;
+            let ageInMonthsText = 'Freddie is ';
+            ageInMonthsText += ageInYears ? format('year', ageInYears) + ',' : '';
+            ageInMonthsText += ` ${format('month', ageInMonths.months)} and `;
+            ageInMonthsText += ` ${format('day', ageInMonths.days)} old.`;
+            ageInMonthsElement.innerText += ageInMonthsText;
 
-            ageInYearsElement.innerText = `which is ${format('year', ageInYears)}`;
-
-            ageInDaysElement.innerText = `or ${format('day', ageInDays)}`;
+            ageInDaysElement.innerText = `Which is ${format('day', ageInDays)}`;
 
             randomiseImage();
 
