@@ -75,10 +75,10 @@
             let ageInMonthsText = 'Freddie is ';
             ageInMonthsText += ageInYears ? format('year', ageInYears) + ',' : '';
             ageInMonthsText += ` ${format('month', ageInMonths.months)} and `;
-            ageInMonthsText += ` ${format('day', ageInMonths.days)} old.`;
+            ageInMonthsText += ` ${format('day', ageInMonths.days)} old`;
             ageInMonthsElement.innerText += ageInMonthsText;
 
-            ageInDaysElement.innerText = `Which is ${format('day', ageInDays)}`;
+            ageInDaysElement.innerText = `which is ${format('day', ageInDays)}`;
 
             randomiseImage();
 
