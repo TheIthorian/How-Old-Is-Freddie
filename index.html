@@ -66,7 +66,8 @@
         const ageInDays = ((today.getTime() - birthDate.getTime()) / MILISECONDS_IN_DAY).toFixed(0);
 
         const updateAgeInSeconds = () => {
-            const ageInSeconds = ((new Date().getTime() - birthDate.getTime()) / 1000).toFixed(0);
+            let ageInSeconds = ((new Date().getTime() - birthDate.getTime()) / 1000).toFixed(0);
+            ageInSeconds = Number(ageInSeconds).toLocaleString();
             const ageInSecondsElement = document.querySelector('#age-in-seconds');
             ageInSecondsElement.innerText = `or ${format('second', ageInSeconds)}`;
         };
