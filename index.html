@@ -12,7 +12,7 @@
         const randomNumber = range => Math.floor(Math.random() * range);
 
         const pluralise = (string, count) => {
-            const plural = count !== 1 && count !== -1;
+            const plural = count != 1 && count != -1;
             return `${string}${plural ? 's' : ''}`;
         };
         const format = (string, count) => {
@@ -65,9 +65,12 @@
 
         const ageInDays = ((today.getTime() - birthDate.getTime()) / MILISECONDS_IN_DAY).toFixed(0);
 
+        const ageInSeconds = ((today.getTime() - birthDate.getTime()) / 1000).toFixed(0);
+
         window.addEventListener('load', () => {
             const ageInMonthsElement = document.querySelector('#age-in-months');
             const ageInDaysElement = document.querySelector('#age-in-days');
+            const ageInSecondsElement = document.querySelector('#age-in-seconds');
             const imageContainerElement = document.querySelector('#image-container');
             const imageElement = document.querySelector('#image');
             const seeFreddieElement = document.querySelector('#see-freddie');
@@ -79,6 +82,8 @@
             ageInMonthsElement.innerText += ageInMonthsText;
 
             ageInDaysElement.innerText = `which is ${format('day', ageInDays)}`;
+
+            ageInSecondsElement.innerText = `or ${format('second', ageInSeconds)}`;
 
             randomiseImage();
 
@@ -178,6 +183,7 @@
     <div id="container">
         <h1 id="age-in-months"></h1>
         <h2 id="age-in-days"></h2>
+        <h2 id="age-in-seconds"></h2>
         <button id="see-freddie">See Freddie</button>
     </div>
     <div id="image-container" class="hidden">
