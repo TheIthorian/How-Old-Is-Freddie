@@ -2,21 +2,25 @@ const MILISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
 const DAYS_IN_YEAR = 365;
 const MILISECONDS_IN_YEAR = MILISECONDS_IN_DAY * DAYS_IN_YEAR;
 
-const randomNumber = range => Math.floor(Math.random() * range);
+function randomNumber(range) {
+    return Math.floor(Math.random() * range);
+}
 
-const pluralise = (string, count) => {
+function pluralise(string, count) {
     const plural = count != 1 && count != -1;
     return `${string}${plural ? 's' : ''}`;
-};
-const format = (string, count) => {
+}
+
+function format(string, count) {
     return `${count} ${pluralise(string, count)}`;
-};
+}
 
 const LIGHT_COLORS = ['#d0fdb1', '#90fca4', '#a9ffed', '#b5ffd4'];
 const DARK_COLORS = ['#cc8bc6', '#cf9279', '#de9fa7', '#81c8de', '#a791e1'];
 const DARK_FONT_COLOR = '#565f59';
 const LIGHT_FONT_COLOR = '#fffef9';
-const getRandomColors = () => {
+
+function getRandomColors() {
     const isLight = randomNumber(2) === 1;
     // const isLight = false;
     const fontColor = isLight ? DARK_FONT_COLOR : LIGHT_FONT_COLOR;
@@ -25,7 +29,7 @@ const getRandomColors = () => {
         : DARK_COLORS[randomNumber(DARK_COLORS.length)];
     console.log(backgroundColor);
     return { fontColor, backgroundColor };
-};
+}
 
 const IMAGE_COUNT = 10;
 const IMAGES = Array(IMAGE_COUNT)
@@ -33,7 +37,7 @@ const IMAGES = Array(IMAGE_COUNT)
     .map((_, index) => '' + index + '.jpg');
 
 let imagesToSelectFrom = [];
-const getRandomImage = () => {
+function getRandomImage() {
     if (imagesToSelectFrom.length === 0) {
         imagesToSelectFrom = [...IMAGES];
     }
@@ -42,11 +46,11 @@ const getRandomImage = () => {
     const image = imagesToSelectFrom[index];
     imagesToSelectFrom.splice(index, 1);
     return image;
-};
-const randomiseImage = () => {
+}
+function randomiseImage() {
     const imageElement = document.querySelector('#image');
     imageElement.setAttribute('src', 'img/' + getRandomImage());
-};
+}
 
 const birthDate = new Date(2022, 4, 17);
 const today = new Date();
@@ -66,17 +70,16 @@ const ageInMonths = {
 
 const ageInDays = ((today.getTime() - birthDate.getTime()) / MILISECONDS_IN_DAY).toFixed(0);
 
-const updateAgeInSeconds = () => {
+function updateAgeInSeconds() {
     let ageInSeconds = ((new Date().getTime() - birthDate.getTime()) / 1000).toFixed(0);
     ageInSeconds = Number(ageInSeconds).toLocaleString();
     const ageInSecondsElement = document.querySelector('#age-in-seconds');
     ageInSecondsElement.innerText = `or ${format('second', ageInSeconds)}`;
-};
+}
 
 window.addEventListener('load', () => {
     const ageInMonthsElement = document.querySelector('#age-in-months');
     const ageInDaysElement = document.querySelector('#age-in-days');
-    const ageInSecondsElement = document.querySelector('#age-in-seconds');
     const imageContainerElement = document.querySelector('#image-container');
     const imageCloseElement = document.querySelector('#image-close');
     const imageElement = document.querySelector('#image');
