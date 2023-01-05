@@ -1,15 +1,22 @@
-const MILISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
+const MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
 const DAYS_IN_YEAR = 365;
-const MILISECONDS_IN_YEAR = MILISECONDS_IN_DAY * DAYS_IN_YEAR;
+const MILLISECONDS_IN_YEAR = MILLISECONDS_IN_DAY * DAYS_IN_YEAR;
 
 const birthDate = new Date(2022, 4, 17);
 const today = new Date();
 
 function getAge() {
-    const ageInYears = today.getFullYear() - birthDate.getFullYear();
-
     const daysIntoTheMonth = today.getDate() - birthDate.getDate();
-    const monthsIntoTheYear = today.getMonth() - birthDate.getMonth();
+    let monthsIntoTheYear = today.getMonth() - birthDate.getMonth();
+    let ageInYears = today.getFullYear() - birthDate.getFullYear();
+
+    // Carry months from year
+    if (monthsIntoTheYear < 0) {
+        ageInYears--;
+        monthsIntoTheYear += 12;
+    }
+
+    console.log({ ageInYears, daysIntoTheMonth, monthsIntoTheYear });
     const daysInAMonth = (year, month) => new Date(year, month, 0).getDate();
     const ageInMonths = {
         months: monthsIntoTheYear + (daysIntoTheMonth < 0 ? -1 : 0),
@@ -19,7 +26,7 @@ function getAge() {
                 : daysIntoTheMonth,
     };
 
-    const ageInDays = ((today.getTime() - birthDate.getTime()) / MILISECONDS_IN_DAY).toFixed(0);
+    const ageInDays = ((today.getTime() - birthDate.getTime()) / MILLISECONDS_IN_DAY).toFixed(0);
 
     return { ageInYears, ageInMonths, ageInDays };
 }
