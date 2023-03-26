@@ -1,4 +1,4 @@
-const IMAGE_COUNT = 10;
+const IMAGE_COUNT = 14;
 const IMAGES = Array(IMAGE_COUNT)
     .fill(0)
     .map((_, index) => '' + index + '.jpg');
