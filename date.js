@@ -6,12 +6,19 @@ const birthDate = new Date(2022, 4, 17);
 const today = new Date();
 
 function getAge() {
+    if (birthDate > today)
+        return {
+            ageInYears: 0,
+            ageInMonths: { months: 0, days: 0 },
+            ageInDays: 0,
+        };
+
     const daysIntoTheMonth = today.getDate() - birthDate.getDate();
     let monthsIntoTheYear = today.getMonth() - birthDate.getMonth();
     let ageInYears = today.getFullYear() - birthDate.getFullYear();
 
     // Carry months from year
-    if (monthsIntoTheYear < 0) {
+    if (monthsIntoTheYear <= 0 && ageInYears > 0) {
         ageInYears--;
         monthsIntoTheYear += 12;
     }
@@ -32,7 +39,8 @@ function getAge() {
 }
 
 function updateAgeInSeconds() {
-    let ageInSeconds = ((new Date().getTime() - birthDate.getTime()) / 1000).toFixed(0);
+    const msDifference = new Date().getTime() - birthDate.getTime();
+    let ageInSeconds = msDifference < 0 ? 0 : (msDifference / 1000).toFixed(0);
     ageInSeconds = Number(ageInSeconds).toLocaleString();
     const ageInSecondsElement = document.querySelector('#age-in-seconds');
     ageInSecondsElement.innerText = `or ${format('second', ageInSeconds)}`;
