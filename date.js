@@ -23,7 +23,6 @@ function getAge() {
         monthsIntoTheYear += 12;
     }
 
-    console.log({ ageInYears, daysIntoTheMonth, monthsIntoTheYear });
     const daysInAMonth = (year, month) => new Date(year, month, 0).getDate();
     const ageInMonths = {
         months: monthsIntoTheYear + (daysIntoTheMonth < 0 ? -1 : 0),
